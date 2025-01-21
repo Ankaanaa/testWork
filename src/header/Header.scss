@@ -1,0 +1,26 @@
+.header {
+    border-bottom: 1px solid black;
+    height: 90px;
+}
+.header__container {
+    display: flex;
+    max-width: 440px;
+    margin: 0 auto;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+.header__nav {
+    border: 1px solid gray;
+    width: 200px;
+    padding-top: 20px;
+    height: 48px;
+}
+
+.header__navLink {
+    text-decoration: none;
+    color: black;
+    border: 1px solid gray;
+    width: 200px;
+    padding-top: 20px;
+    height: 48px;
+}
