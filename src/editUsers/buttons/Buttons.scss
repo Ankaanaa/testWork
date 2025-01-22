@@ -1,0 +1,20 @@
+
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 87%;
+    margin-top: 60px;
+    padding-bottom: 50px;
+}
+
+.button__undo {
+    width: 120px;
+    margin-right: 20px;
+    height: 50px;
+    cursor: pointer;
+}
+.button__save {
+    width: 180px;
+    cursor: pointer;
+}

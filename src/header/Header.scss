@@ -1,6 +1,7 @@
 .header {
     border-bottom: 1px solid black;
     height: 90px;
+    width: 100%;
 }
 .header__container {
     display: flex;
@@ -17,6 +18,7 @@
 }
 
 .header__navLink {
+    text-align: center;
     text-decoration: none;
     color: black;
     border: 1px solid gray;
