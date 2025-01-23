@@ -78,7 +78,11 @@ const ButtonsSaveOrUndo = (props: props) => {
 					Undo
 				</button>
 			)}
-			<button className='button__save' onClick={saveChange}>
+			<button
+				disabled={!hasChange()}
+				className='button__save'
+				onClick={saveChange}
+			>
 				Save
 			</button>
 		</div>
