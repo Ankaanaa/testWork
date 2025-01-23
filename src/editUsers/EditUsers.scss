@@ -21,11 +21,17 @@
     width: 500px;
     height: 48px;
 }
-
+.editUsers__select.length {
+    border: 1px solid red !important;
+}
 .editUsers__information {
     margin-top: 80px;
     font-size: 27px;
     font-weight: 500;
+}
+
+.editUsers__length {
+    color: red;
 }
 
 .editUsers__input {

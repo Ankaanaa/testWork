@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { users } from '../data/data'
+
 import './EditUsers.scss'
 import ButtonsSaveOrUndo from './buttons/Buttons'
+
 interface users {
 	name: string
 	department: string
 	country: string
 	status: string
 }
+
 const EditUsers = () => {
 	const [select, setSelect] = useState('')
 	const [name, setName] = useState('')
@@ -15,6 +18,7 @@ const EditUsers = () => {
 	const [department, setDepartment] = useState('')
 	const [country, setCountry] = useState('')
 	const [status, setStatus] = useState('')
+	const [lengthName, setLengthName] = useState(true)
 
 	const ChangeUser = (
 		event: React.ChangeEvent<HTMLSelectElement>,
@@ -54,12 +58,18 @@ const EditUsers = () => {
 				<div className='editUsers__information'>User Information</div>
 				<div className='editUsers__container_2'>
 					<div className='editUsers__column'>
-						<div>Full Name</div>
+						{!lengthName ? (
+							<div className='editUsers__length'>
+								Must be at least 5 characters
+							</div>
+						) : (
+							<div>Full Name</div>
+						)}
 						<input
 							value={name}
 							onChange={e => setName(e.target.value)}
 							type='text'
-							className='editUsers__input'
+							className={`editUsers__select ${!lengthName ? 'length' : ''}`}
 						/>
 					</div>
 					<div className='editUsers__column'>
@@ -99,7 +109,20 @@ const EditUsers = () => {
 						</select>
 					</div>
 				</div>
-				<ButtonsSaveOrUndo />
+				<ButtonsSaveOrUndo
+					name={name}
+					setName={setName}
+					index={index}
+					setIndex={setIndex}
+					setCountry={setCountry}
+					country={country}
+					setDepartment={setDepartment}
+					department={department}
+					status={status}
+					setStatus={setStatus}
+					lengthName={lengthName}
+					setLengthName={setLengthName}
+				/>
 			</div>
 		</div>
 	)
