@@ -8,32 +8,63 @@ const Users = () => {
 	const [checkDepartment, setCheckDepartment] = useState<{
 		[department: string]: boolean
 	}>({})
-	const [department, setDepartment] = useState<department[]>([])
+	const [dataDepartment, setDataDepartment] = useState<department[]>([])
 	const [toggleDepartment, setToggleDepartment] = useState<boolean>(true)
 	useEffect(() => {
 		const FetchData = async () => {
 			const fetchDep = await fetch('/Departments.json')
 
 			const department = await fetchDep.json()
-			setDepartment(department)
+			setDataDepartment(department)
 		}
 		FetchData()
 	}, [])
-
-	const handleCheckBox = (department: string, isChecked: boolean) => {
-		setCheckDepartment(prev => ({
-			...prev,
-			[department]: isChecked,
-		}))
+	const upSelected = (
+		mode: 'department' | 'country',
+		department: string,
+		data: department[],
+		setData: React.Dispatch<React.SetStateAction<department[]>>
+	) => {
+		const index = data.findIndex((el: department) => {
+			if (mode === 'department') {
+				return el.name === department
+			}
+		})
+		setData(prev => {
+			const newData = [...prev]
+			newData.splice(index, 1)
+			newData.unshift({ name: data[index].name, value: data[index].value })
+			return newData
+		})
 	}
-	const DepartmentList = department.map((el: department) => {
+
+	const handleCheckBox = (
+		department: string,
+		isChecked: boolean,
+		name: 'department' | 'country'
+	) => {
+		if (name === 'department') {
+			setCheckDepartment(prev => ({
+				...prev,
+				[department]: isChecked,
+			}))
+
+			if (isChecked) {
+				upSelected('department', department, dataDepartment, setDataDepartment)
+			}
+		}
+	}
+
+	const DepartmentList = dataDepartment.map((el: department) => {
 		return (
 			<div key={el.value} className='users__department'>
 				<input
 					checked={checkDepartment[el.name] || false}
 					className='users__checkbox'
 					type='checkbox'
-					onChange={e => handleCheckBox(el.name, e.target.checked)}
+					onChange={e =>
+						handleCheckBox(el.name, e.target.checked, 'department')
+					}
 				/>
 				<div className='users__prof'>{el.name}</div>
 			</div>
