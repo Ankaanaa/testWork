@@ -83,14 +83,26 @@ const EditUsers = () => {
 		return selectedData
 	}
 
-	const UserInfoUp = (event: React.ChangeEvent<HTMLSelectElement>) => {
+	const UserInfoUp = (
+		event: React.ChangeEvent<HTMLSelectElement>,
+		data: data[],
+		setData: React.Dispatch<React.SetStateAction<data[]>>,
+		mode: 'department' | 'countries' | 'status'
+	) => {
 		const IndexUs = parseInt(event.target.value, 10)
-		const check = dataDepartments.findIndex(
-			(index: data) => users[IndexUs].department === index.name
-		)
-		const { name, value } = dataDepartments[check]
+		const check = data.findIndex((index: data) => {
+			if (mode === 'department') {
+				return users[IndexUs].department === index.name
+			} else if (mode === 'countries') {
+				return users[IndexUs].country === index.name
+			} else if (mode === 'status') {
+				return users[IndexUs].status === index.name
+			}
+		})
+		const { name, value } = data[check]
+		debugger
 		if (check !== -1 && check !== 0) {
-			setDataDepartments(prev => {
+			setData(prev => {
 				const newData = [...prev]
 				newData.splice(check, 1)
 				newData.unshift({ name: name, value: value })
@@ -109,7 +121,9 @@ const EditUsers = () => {
 			const index = parseInt(event.target.value, 10)
 			setIndex(index)
 			setSelect(event.target.value)
-			UserInfoUp(event)
+			UserInfoUp(event, dataDepartments, setDataDepartments, 'department')
+			UserInfoUp(event, dataCountries, setDataCountries, 'countries')
+			UserInfoUp(event, dataStatuses, setDataStatuses, 'status')
 			setName(users[index].name)
 			setDepartment(users[index].department)
 			setCountry(users[index].country)
