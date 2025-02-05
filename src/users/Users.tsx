@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import './Users.scss'
+import FilterCountries from './filterCountries/FilterCountries'
 interface department {
+	name: string
+	value: string
+}
+interface countries {
 	name: string
 	value: string
 }
@@ -8,8 +13,13 @@ const Users = () => {
 	const [checkDepartment, setCheckDepartment] = useState<{
 		[department: string]: boolean
 	}>({})
+	const [checkCountries, setCheckCountries] = useState<{
+		[countries: string]: boolean
+	}>({})
 	const [dataDepartment, setDataDepartment] = useState<department[]>([])
 	const [toggleDepartment, setToggleDepartment] = useState<boolean>(true)
+	const [observerFilter, setObserverFilter] = useState<number>(0)
+	const [dataCountries, setDataCountries] = useState<countries[]>([])
 	useEffect(() => {
 		const FetchData = async () => {
 			const fetchDep = await fetch('/Departments.json')
@@ -19,25 +29,56 @@ const Users = () => {
 		}
 		FetchData()
 	}, [])
+
+	useEffect(() => {
+		const fetchCountries = async () => {
+			const res = await fetch('/Countries.json')
+			const countries = await res.json()
+			setDataCountries(countries)
+		}
+		fetchCountries()
+	}, [])
+
+	useEffect(() => {
+		const trueCount = Object.values(checkDepartment).filter(
+			value => value
+		).length
+		if (trueCount === 3) {
+			setObserverFilter(3)
+		} else if (trueCount < 3 && trueCount !== 0) {
+			setObserverFilter(0)
+		}
+	}, [Object.keys(checkDepartment).length, Object.values(checkDepartment)])
 	const upSelected = (
 		mode: 'department' | 'country',
 		department: string,
 		data: department[],
-		setData: React.Dispatch<React.SetStateAction<department[]>>
+		setData: React.Dispatch<React.SetStateAction<department[]>>,
+		isPush: 'push' | 'no'
 	) => {
 		const index = data.findIndex((el: department) => {
 			if (mode === 'department') {
 				return el.name === department
+			} else {
+				return el.name === department
 			}
 		})
-		setData(prev => {
-			const newData = [...prev]
-			newData.splice(index, 1)
-			newData.unshift({ name: data[index].name, value: data[index].value })
-			return newData
-		})
+		if (isPush === 'push') {
+			setData(prev => {
+				const newData = [...prev]
+				newData.splice(index, 1)
+				newData.push({ name: data[index].name, value: data[index].value })
+				return newData
+			})
+		} else {
+			setData(prev => {
+				const newData = [...prev]
+				newData.splice(index, 1)
+				newData.unshift({ name: data[index].name, value: data[index].value })
+				return newData
+			})
+		}
 	}
-
 	const handleCheckBox = (
 		department: string,
 		isChecked: boolean,
@@ -50,11 +91,41 @@ const Users = () => {
 			}))
 
 			if (isChecked) {
-				upSelected('department', department, dataDepartment, setDataDepartment)
+				upSelected(
+					'department',
+					department,
+					dataDepartment,
+					setDataDepartment,
+					'no'
+				)
+			} else {
+				upSelected(
+					'department',
+					department,
+					dataDepartment,
+					setDataDepartment,
+					'push'
+				)
+			}
+		} else {
+			setCheckCountries(prev => ({
+				...prev,
+				[department]: isChecked,
+			}))
+
+			if (isChecked) {
+				upSelected('country', department, dataCountries, setDataCountries, 'no')
+			} else {
+				upSelected(
+					'country',
+					department,
+					dataCountries,
+					setDataCountries,
+					'push'
+				)
 			}
 		}
 	}
-
 	const DepartmentList = dataDepartment.map((el: department) => {
 		return (
 			<div key={el.value} className='users__department'>
@@ -80,12 +151,26 @@ const Users = () => {
 				<div className='users__filter'>
 					<div className='users__block'>
 						<div>Selected</div>
-						<div onClick={() => setToggleDepartment(!toggleDepartment)}>ʌ</div>
+						<div
+							className='users__show'
+							onClick={() => setToggleDepartment(!toggleDepartment)}
+						>
+							ʌ
+						</div>
 					</div>
 					{toggleDepartment && (
 						<div className='users__content'>{DepartmentList}</div>
 					)}
 				</div>
+				<FilterCountries
+					upSelected={upSelected}
+					observerFilter={observerFilter}
+					handleCheckBox={handleCheckBox}
+					dataCountries={dataCountries}
+					setDataCountries={setDataCountries}
+					checkCountries={checkCountries}
+					setCheckCountries={setCheckCountries}
+				/>
 			</div>
 		</div>
 	)
