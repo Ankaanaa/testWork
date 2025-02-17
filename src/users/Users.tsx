@@ -145,6 +145,13 @@ const Users = () => {
 			</div>
 		)
 	})
+	const defaultParams = () => {
+		setObserverFilter(0)
+		setCheckDepartment(prev =>
+			Object.fromEntries(Object.keys(checkDepartment).map(key => [key, false]))
+		)
+		setCountry('')
+	}
 	return (
 		<div className='users'>
 			<div className='users__title'>USERS</div>
@@ -180,6 +187,9 @@ const Users = () => {
 					country={country}
 					observerFilter={observerFilter}
 				/>
+				<div className='user__trash' onClick={() => defaultParams()}>
+					X
+				</div>
 			</div>
 		</div>
 	)
