@@ -47,11 +47,8 @@ const FilterCountries = (props: props) => {
 		fetchCountries()
 	}, [])
 
-	console.log(props.observerFilter)
 	useEffect(() => {
-		debugger
 		if (props.observerFilter < 3) {
-			debugger
 			setToggleCountries(false)
 			props.setCheckCountries(
 				prev =>

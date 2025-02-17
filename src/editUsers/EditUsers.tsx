@@ -100,7 +100,6 @@ const EditUsers = () => {
 			}
 		})
 		const { name, value } = data[check]
-		debugger
 		if (check !== -1 && check !== 0) {
 			setData(prev => {
 				const newData = [...prev]

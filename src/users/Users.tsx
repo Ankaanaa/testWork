@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './Users.scss'
 import FilterCountries from './filterCountries/FilterCountries'
+import FilterStatuses from './filterCountries/filterStatuses/FilterStatuses'
 interface department {
 	name: string
 	value: string
@@ -20,6 +21,7 @@ const Users = () => {
 	const [toggleDepartment, setToggleDepartment] = useState<boolean>(true)
 	const [observerFilter, setObserverFilter] = useState<number>(0)
 	const [dataCountries, setDataCountries] = useState<countries[]>([])
+	const [country, setCountry] = useState<string>('')
 	useEffect(() => {
 		const FetchData = async () => {
 			const fetchDep = await fetch('/Departments.json')
@@ -112,6 +114,7 @@ const Users = () => {
 				...prev,
 				[department]: isChecked,
 			}))
+			setCountry(department)
 
 			if (isChecked) {
 				upSelected('country', department, dataCountries, setDataCountries, 'no')
@@ -123,6 +126,7 @@ const Users = () => {
 					setDataCountries,
 					'push'
 				)
+				setCountry('')
 			}
 		}
 	}
@@ -170,6 +174,11 @@ const Users = () => {
 					setDataCountries={setDataCountries}
 					checkCountries={checkCountries}
 					setCheckCountries={setCheckCountries}
+				/>
+				<FilterStatuses
+					checkDepartment={checkDepartment}
+					country={country}
+					observerFilter={observerFilter}
 				/>
 			</div>
 		</div>
