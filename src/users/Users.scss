@@ -135,4 +135,21 @@
             color: white;
         }
     }
+
+    .user__addUser {
+        border: 1px solid black;
+        height: 100%;
+        width: 150px;
+        cursor: pointer;
+        text-align: center;
+        padding: 18px;
+        margin-left: 250px;
+        transition: all 400ms ease;
+        border-radius: 5px;
+
+        &:hover {
+            background-color: black;
+            color: white;
+        }
+    }
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './Users.scss'
 import FilterCountries from './filterCountries/FilterCountries'
 import FilterStatuses from './filterCountries/filterStatuses/FilterStatuses'
+import Modal from './modal/Modal'
 interface department {
 	name: string
 	value: string
@@ -20,6 +21,7 @@ const Users = () => {
 	const [dataDepartment, setDataDepartment] = useState<department[]>([])
 	const [toggleDepartment, setToggleDepartment] = useState<boolean>(true)
 	const [observerFilter, setObserverFilter] = useState<number>(0)
+	const [toggleModal, setToggleModal] = useState<boolean>(false)
 	const [dataCountries, setDataCountries] = useState<countries[]>([])
 	const [country, setCountry] = useState<string>('')
 	useEffect(() => {
@@ -153,45 +155,60 @@ const Users = () => {
 		setCountry('')
 	}
 	return (
-		<div className='users'>
-			<div className='users__title'>USERS</div>
-			<div className='users__desc'>
-				Please add at least 3 departments to be able to proceed next steps.
-			</div>
-			<div className='users__filters'>
-				<div className='users__filter'>
-					<div className='users__block'>
-						<div>Selected</div>
-						<div
-							className='users__show'
-							onClick={() => setToggleDepartment(!toggleDepartment)}
-						>
-							ʌ
+		<>
+			<div className='users'>
+				<div className='users__title'>USERS</div>
+				<div className='users__desc'>
+					Please add at least 3 departments to be able to proceed next steps.
+				</div>
+				<div className='users__filters'>
+					<div className='users__filter'>
+						<div className='users__block'>
+							<div>Selected</div>
+							<div
+								className='users__show'
+								onClick={() => setToggleDepartment(!toggleDepartment)}
+							>
+								ʌ
+							</div>
 						</div>
+						{toggleDepartment && (
+							<div className='users__content'>{DepartmentList}</div>
+						)}
 					</div>
-					{toggleDepartment && (
-						<div className='users__content'>{DepartmentList}</div>
-					)}
-				</div>
-				<FilterCountries
-					upSelected={upSelected}
-					observerFilter={observerFilter}
-					handleCheckBox={handleCheckBox}
-					dataCountries={dataCountries}
-					setDataCountries={setDataCountries}
-					checkCountries={checkCountries}
-					setCheckCountries={setCheckCountries}
-				/>
-				<FilterStatuses
-					checkDepartment={checkDepartment}
-					country={country}
-					observerFilter={observerFilter}
-				/>
-				<div className='user__trash' onClick={() => defaultParams()}>
-					X
+					<FilterCountries
+						upSelected={upSelected}
+						observerFilter={observerFilter}
+						handleCheckBox={handleCheckBox}
+						dataCountries={dataCountries}
+						setDataCountries={setDataCountries}
+						checkCountries={checkCountries}
+						setCheckCountries={setCheckCountries}
+					/>
+					<FilterStatuses
+						checkDepartment={checkDepartment}
+						country={country}
+						observerFilter={observerFilter}
+					/>
+					<div className='user__trash' onClick={() => defaultParams()}>
+						X
+					</div>
+					<div
+						className='user__addUser'
+						onClick={() => setToggleModal(!toggleModal)}
+					>
+						Add User
+					</div>
 				</div>
 			</div>
-		</div>
+			{toggleModal && (
+				<Modal
+					dataCountries={dataCountries}
+					dataDepartment={dataDepartment}
+					setToggleModal={setToggleModal}
+				/>
+			)}
+		</>
 	)
 }
 
