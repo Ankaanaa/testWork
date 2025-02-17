@@ -37,7 +37,6 @@ const FilterStatuses = (props: props) => {
 			}))
 		)
 	}, [props.checkDepartment])
-	console.log(props.country)
 	return (
 		<div className={`users__filter__3`}>
 			<div className='users__block'>

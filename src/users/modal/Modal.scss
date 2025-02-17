@@ -29,6 +29,8 @@
     }
     .modal__form {
         display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
     }
     .modal__items {
         position: relative;
@@ -36,9 +38,19 @@
     .modal__input {
         width: 250px;
         height: 40px;
+        padding-left: 10px;
+
+        &::placeholder {
+            font-size: 15px;
+        }
+    }
+    .modal__select {
+        width: 250px;
+        height: 47px;
+        padding-left: 10px;
     }
     .modal__label {
         position: absolute;
-        top: -23px;
+        top: -26px;
     }
 }

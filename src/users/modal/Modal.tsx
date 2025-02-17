@@ -15,9 +15,15 @@ interface props {
 	setToggleModal: (value: React.SetStateAction<boolean>) => void
 }
 const Modal = (props: props) => {
+	const [dataCountries, setDataCountries] = useState<countries[]>(
+		props.dataCountries
+	)
+	const [dataDepartment, setDataDepartment] = useState<department[]>(
+		props.dataDepartment
+	)
 	const [formData, setFormData] = useState({
 		input1: '',
-		input2: '',
+		department: '',
 		input3: '',
 		input4: '',
 	})
@@ -32,6 +38,38 @@ const Modal = (props: props) => {
 			[name]: value,
 		}))
 	}
+	const SelectParams = (
+		e: React.ChangeEvent<HTMLSelectElement>,
+		mode: 'department' | 'country' | 'status',
+		data?: department[]
+	) => {
+		debugger
+		const { name, value } = e.target
+		const FindComponent = data?.findIndex(index => {
+			if (mode === 'department') {
+				return index.name === value
+			}
+		})
+		if (mode === 'department' && FindComponent !== undefined) {
+			debugger
+			if (FindComponent !== 0) {
+				setDataDepartment(prev => {
+					const newData = [...prev]
+					newData.splice(FindComponent, 1)
+					newData.unshift({
+						name: dataDepartment[FindComponent].name,
+						value: dataDepartment[FindComponent].value,
+					})
+					return newData
+				})
+			}
+			setFormData(prev => ({
+				...prev,
+				[e.target.name]: e.target.value,
+			}))
+		}
+	}
+	console.log(formData.department)
 	return (
 		<div onClick={() => props.setToggleModal(false)} className='modal'>
 			<div onClick={handleModalClick} className='modal__block'>
@@ -43,6 +81,7 @@ const Modal = (props: props) => {
 								Full Name
 							</label>
 							<input
+								placeholder='Enter full name'
 								className='modal__input'
 								type='text'
 								id='input1'
@@ -50,6 +89,29 @@ const Modal = (props: props) => {
 								value={formData.input1}
 								onChange={handleChange}
 							/>
+						</div>
+						<div className='modal__items'>
+							<label className='modal__label' htmlFor='department'>
+								Department
+							</label>
+							<select
+								value={formData.department}
+								className='modal__select'
+								id='department'
+								onChange={e => SelectParams(e, 'department', dataDepartment)}
+								name='department'
+							>
+								<option value={''} disabled selected>
+									Select Department
+								</option>
+								{dataDepartment.map((el, index) => {
+									return (
+										<option key={index} value={el.name}>
+											{el.name}
+										</option>
+									)
+								})}
+							</select>
 						</div>
 					</form>
 				</div>
