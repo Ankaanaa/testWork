@@ -3,6 +3,7 @@ import './Users.scss'
 import FilterCountries from './filterCountries/FilterCountries'
 import FilterStatuses from './filterCountries/filterStatuses/FilterStatuses'
 import Modal from './modal/Modal'
+import TableUsers from './tableUsers/TableUsers'
 interface department {
 	name: string
 	value: string
@@ -200,6 +201,7 @@ const Users = () => {
 						Add User
 					</div>
 				</div>
+				<TableUsers checkDepartment={checkDepartment} country={country} />
 			</div>
 			{toggleModal && (
 				<Modal

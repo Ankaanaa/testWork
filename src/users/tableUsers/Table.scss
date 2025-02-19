@@ -1,0 +1,22 @@
+
+
+.table {
+    .table__names {
+        border: 1px solid rgba(128, 128, 128, 0.63);
+        // max-width: 80%;
+        // margin: 0 auto;
+        padding: 25px;
+        font-weight: 700;
+        padding-left: 150px;
+        padding-right: 150px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .table__users {
+        display: flex;
+        border: 1px solid red;
+        justify-content: space-around;
+        // padding: 100px;
+    }
+}
