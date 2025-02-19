@@ -1,0 +1,3 @@
+На странице "Юзерс" в фильтре выбора страны ошибка: там должна выбираться всего одна страна, а у меня можно выбрать несколько. Однако функционал запоминает только последнюю выбранную страну, вне зависимости от того, активны ли несколько стран.
+
+There is an error in the country selection filter on the "Users" page: there should only be one country selected, but I can select several. However, the functionality remembers only the last selected country, regardless of whether several countries are active.
