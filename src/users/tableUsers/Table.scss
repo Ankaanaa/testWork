@@ -5,18 +5,35 @@
         border: 1px solid rgba(128, 128, 128, 0.63);
         // max-width: 80%;
         // margin: 0 auto;
-        padding: 25px;
+        // padding: 25px;
+        padding-top: 25px;
+        padding-bottom: 25px;
         font-weight: 700;
-        padding-left: 150px;
-        padding-right: 150px;
+        // padding-left: 150px;
+        // padding-right: 150px;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
+    }
+    .table__params {
+        flex-basis: 25%;
+        text-align: center;
     }
 
     .table__users {
         display: flex;
-        border: 1px solid red;
-        justify-content: space-around;
+        justify-content: space-between;
         // padding: 100px;
+        margin-top: 100px;
+    }
+    .table__info {
+        padding-left: 35px;
+        flex-basis: 21%;
+        text-align: center;
+    }
+
+    .table__notFound {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 23px;
     }
 }

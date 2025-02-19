@@ -22,6 +22,7 @@ interface users {
 
 const TableUsers = (props: props) => {
 	const [department, setDepartment] = useState<department[]>([])
+	const [userData, setUserData] = useState<users[]>(users)
 	useEffect(() => {
 		setDepartment(
 			Object.entries(props.checkDepartment).map(([key, value]) => ({
@@ -45,22 +46,62 @@ const TableUsers = (props: props) => {
 			} else return true
 		})
 
+	const deleteUser = (index: number) => {
+		debugger
+		setUserData(prev => {
+			const newData = [...prev]
+			newData.splice(index, 1)
+			return newData
+		})
+		users.splice(index, 1)
+	}
+
 	console.log(UsersRelevant)
+	const UsersContent = UsersRelevant.map((el, index) => {
+		return (
+			<div key={index} className='table__users'>
+				<div className='table__info'>{el.name}</div>
+				<div className='table__info'>{el.department}</div>
+				<div className='table__info'>{el.country}</div>
+				<div className='table__info'>{el.status}</div>
+				<div onClick={() => deleteUser(index)}>X</div>
+			</div>
+		)
+	})
+	const DefaultObserver = departmentFilter.flatMap(el => {
+		return userData.filter(dep => dep.department === el.name)
+	})
+
+	console.log(DefaultObserver, 's', departmentFilter)
+	const allUsers = userData.map((el, index) => {
+		// if (DefaultObserver.length === 0 && departmentFilter.length >= 1) {
+		// 	return <div>Not Found</div>
+		// } else {
+		return (
+			<div key={index} className='table__users'>
+				<div className='table__info'>{el.name}</div>
+				<div className='table__info'>{el.department}</div>
+				<div className='table__info'>{el.country}</div>
+				<div className='table__info'>{el.status}</div>
+				<div onClick={() => deleteUser(index)}>X</div>
+			</div>
+		)
+	})
 	return (
 		<div className='table'>
 			<div className='table__names'>
-				<div>Full Name</div>
-				<div>Department</div>
-				<div>Country</div>
-				<div>Status</div>
+				<div className='table__params'>Full Name</div>
+				<div className='table__params'>Department</div>
+				<div className='table__params'>Country</div>
+				<div className='table__params'>Status</div>
 			</div>
-			<div className='table__users'>
-				<div>Andrey Gay</div>
-				<div>Marketing</div>
-				<div>Ukraine</div>
-				<div>Active</div>
-				<div>X</div>
-			</div>
+			{UsersRelevant.length > 0 ? (
+				UsersContent
+			) : DefaultObserver.length === 0 && departmentFilter.length >= 1 ? (
+				<div className='table__notFound'>No such user found</div>
+			) : (
+				allUsers
+			)}
 		</div>
 	)
 }
